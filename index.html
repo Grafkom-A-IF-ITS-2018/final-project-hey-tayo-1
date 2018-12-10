@@ -7,6 +7,8 @@
 	<script src="js/aframe.min.js"></script>
   	<script src="js/aframe-super-shooter-kit.min.js"></script>
   	<script src="js/aframe-extras.min.js"></script>
+  	<script src="js/build.js"></script>
+  	<script src="js/countdown.js"></script>
   	<script type="text/javascript">
   		/** Shoot **/
   		AFRAME.registerComponent('click-to-shoot', {
@@ -38,10 +40,47 @@
 		        });
 		    }
 		});
+
+		AFRAME.registerComponent('collison-check', {
+    schema: {
+      el: {
+        type: 'selector'
+      },
+      radius: {
+        default: 0
+      },
+      otherRadius: {
+        default: 0
+      },
+      score:{
+        type: 'int',
+        default: 0
+      },
+      colliding:{
+        default: false
+      }
+    },
+    tick: function () {
+      var el1 = this.el;
+      var el2 = this.data.el;
+      var dist = el1.object3D.getWorldPosition().distanceTo(el2.object3D.getWorldPosition());
+      var entity = document.querySelector('#score');
+      if (dist < this.data.radius + this.data.otherRadius) {
+        if (!this.data.colliding){
+          this.data.score++;
+          this.data.colliding = true;
+          entity.emit('updateScore');
+          AFRAME.utils.entity.setComponentProperty(entity, 'text.value', "score \n" + this.data.score);
+        }
+      } else {
+        this.data.colliding = false;
+      }
+    }
+  });
   	</script>
 </head>
 <body>
-	<a-scene background="color: #DADADA">
+	<a-scene background="color: #DADADA" countdown="start: 05:00; value: 00:00">
 		<a-assets>
 			<img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png">
 			<img id="skyTexture" src="images/background.png">
@@ -56,6 +95,12 @@
 		</a-entity>
 
 		<a-entity id="platform" geometry="primitive:box; width: 15; height: 1; depth: 15;" position="0 0.5 0" material="color:#f3f3f3;"></a-entity>
+
+	<a-entity id="score" position="-2.5 2 -2" rotation="0 45 0" text="width: 4; align: center; color: black; value: Score \n 000">
+      <a-animation attribute="rotation" to="0 405 0"  easing="linear" fill="both" dur="800" begin="updateScore" > </a-animation>
+      <a-box color="#fed6fa" position ="0 0 -0.05" scale="0.8 0.6 0.1"> </a-box>
+      <a-box color="#fed6fa" position ="0 -0.7 -0.05" scale="0.1 1 0.1"> </a-box>
+	</a-entity>
 
 		<a-entity id="smallBox1" geometry="primitive:box; width: 2; height: 2; depth: 1;" position="-1.5 2    -5" rotation="0  0 0" material="color: #8b5a2b"></a-entity>
 		<a-entity id="smallBox2" geometry="primitive:box; width: 2; height: 2; depth: 1;" position=" 1.5 2    -5" rotation="0  0 0" material="color: #8b5a2b"></a-entity>
@@ -90,9 +135,5 @@
 	    <a-entity light="type: directional; color: #FFF; intensity: 0.8" position="0 5 4"></a-entity>
 
 	</a-scene>
-
-	<div id="score" style="position: absolute; top: 1%; right: 2%;">
-		SCORE
-	</div>
 </body>
 </html>
