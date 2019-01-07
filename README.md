@@ -194,3 +194,33 @@ Then require and use.
 require('aframe');
 require('aframe-super-shooter-kit');
 ```
+
+# Scoring
+
+## Team Statistics
+| WORKING TIMELINE | Total Team Commit | Total Team Member |
+| :--------------- | :---------------: | :---------------: |
+| Dec 9 - Dec 11   | 29                | 3                 |
+
+## Team Score
+| ASPECT                | Score     |
+| :-------------------- | :-------: |
+| Idea Originality      | 80        |
+| Graphics Technique    | 70        |
+| Implementation        | 64        |
+| Interactivity         | 70        |
+| Presentation Delivery | 70        |
+| Repository            | 76        |
+| **OVERALL**           | **71.67** |
+
+## Individual Scores
+| NRP           | Contribution | Score |
+| :------------ | :----------: | :---: |
+| 5111640000106 | 72%          | 67.71 |
+| 5111640000107 | 217%         | 71.67 |
+| 5111640000185 | 10%          | 58.81 |
+
+**FORMULA**: 
+> `Individual Score = Team Score * 0.8 + Team Score * 0.2 * (IF(Contribution > 100%, 100%, Team Score))`
+
+> `Contribution = Total Personal Commit / Total Team Commit * Total Team Member`
